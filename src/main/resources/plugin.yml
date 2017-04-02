@@ -1,0 +1,8 @@
+name: Tools
+description: Custom Tools Collection
+author: StarTux
+version: 0.1
+main: com.winthier.tools.ToolsPlugin
+depend: [ Custom, GenericEvents ]
+commands: {}
+permissions: {}

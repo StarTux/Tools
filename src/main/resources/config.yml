@@ -1,0 +1,5 @@
+tree_chopper:
+  Category: Tools
+  Description: This axe can cut down a whole tree at once!
+  Usage: Cut through the base of a tree and the rest will follow.
+  DisplayName: Tree Chopper
