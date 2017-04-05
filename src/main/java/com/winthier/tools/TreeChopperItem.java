@@ -9,6 +9,7 @@ import com.winthier.generic_events.GenericEventsPlugin;
 import com.winthier.generic_events.ItemNameEvent;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Set;
 import lombok.Getter;
 import org.bukkit.ChatColor;
@@ -39,6 +40,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
     private final ItemDescription itemDescription;
     private final String displayName;
     private final BlockFace[] surroundingFaces = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
+    private final Random random = new Random(System.currentTimeMillis());
 
     TreeChopperItem(ToolsPlugin plugin) {
         this.plugin = plugin;
@@ -98,17 +100,26 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         if (!block.equals(event.getBlock())) todo.add(block);
         for (BlockFace face: surroundingFaces) todo.add(block.getRelative(face));
         ItemStack item = context.getItemStack();
-        int max = item.getType().getMaxDurability() - item.getDurability();
+        int max = item.getType().getMaxDurability() - item.getDurability() - 1;
         Player player = context.getPlayer();
-        while (!todo.isEmpty() && found.size() < max) {
+        int damageAmount = 0;
+        while (!todo.isEmpty() && damageAmount < max) {
             Block todoBlock = todo.removeFirst();
             if (!isLog(todoBlock)) continue;
             if (!GenericEventsPlugin.getInstance().playerCanBuild(player, todoBlock)) continue;
             found.add(todoBlock);
+            if (random.nextInt(6) == 0) damageAmount += 1;
             Block upBlock = todoBlock.getRelative(BlockFace.UP);
             if (!done.contains(upBlock)) {
                 todo.add(upBlock);
                 done.add(upBlock);
+            }
+            for (BlockFace face: surroundingFaces) {
+                Block nborBlock = todoBlock.getRelative(face);
+                if (!done.contains(nborBlock)) {
+                    todo.add(nborBlock);
+                    done.add(nborBlock);
+                }
             }
             for (BlockFace face: surroundingFaces) {
                 Block nborBlock = upBlock.getRelative(face);
@@ -129,7 +140,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
                 if (found.isEmpty()) cancel();
             }
         }.runTaskTimer(plugin, 2, 2);
-        int newDurability = item.getDurability() + found.size();
+        int newDurability = item.getDurability() + damageAmount;
         if (player.getGameMode() == GameMode.CREATIVE) return;
         if (newDurability < item.getType().getMaxDurability()) {
             item.setDurability((short)newDurability);
@@ -137,7 +148,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             item.setAmount(0);
             player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
         }
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, found.size() * 10, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, found.size() * 5, 1));
     }
 
     @EventHandler
