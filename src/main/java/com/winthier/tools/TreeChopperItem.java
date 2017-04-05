@@ -99,10 +99,8 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
     public void onBlockBreak(BlockBreakEvent event, ItemContext context) {
         Block block = event.getBlock();
         if (!isLog(block)) return;
-        if (block.getRelative(BlockFace.DOWN).getType().isSolid()) {
-            for (BlockFace face: surroundingFaces) {
-                if (isLog(block.getRelative(face))) return;
-            }
+        for (BlockFace face: surroundingFaces) {
+            if (isLog(block.getRelative(face))) return;
         }
         LinkedList<Block> todo = new LinkedList<>();
         Set<Block> done = new HashSet<>();
@@ -125,9 +123,9 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
                 Block tmp = todoBlock;
                 for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
                 tmp = todoBlock.getRelative(BlockFace.UP);
+                leafNbors.add(tmp);
                 for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
-                tmp = todoBlock.getRelative(BlockFace.DOWN);
-                for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
+                leafNbors.add(todoBlock.getRelative(BlockFace.DOWN));
                 for (Block leafNbor: leafNbors) {
                     if (!done.contains(leafNbor)
                         && isLog(leafNbor)) {
