@@ -7,6 +7,7 @@ import com.winthier.custom.item.UncraftableItem;
 import com.winthier.custom.item.UpdatableItem;
 import com.winthier.generic_events.GenericEventsPlugin;
 import com.winthier.generic_events.ItemNameEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -84,6 +85,16 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         }
     }
 
+    private boolean isLeaf(Block block) {
+        switch (block.getType()) {
+        case LEAVES:
+        case LEAVES_2:
+            return true;
+        default:
+            return false;
+        }
+    }
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onBlockBreak(BlockBreakEvent event, ItemContext context) {
         Block block = event.getBlock();
@@ -92,12 +103,14 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             for (BlockFace face: surroundingFaces) {
                 if (isLog(block.getRelative(face))) return;
             }
-            block = block.getRelative(BlockFace.UP);
         }
         LinkedList<Block> todo = new LinkedList<>();
         Set<Block> done = new HashSet<>();
+        done.add(block);
         final LinkedList<Block> found = new LinkedList<>();
-        if (!block.equals(event.getBlock())) todo.add(block);
+        for (BlockFace face: surroundingFaces) todo.add(block.getRelative(face));
+        block = block.getRelative(BlockFace.UP);
+        todo.add(block);
         for (BlockFace face: surroundingFaces) todo.add(block.getRelative(face));
         ItemStack item = context.getItemStack();
         int max = item.getType().getMaxDurability() - item.getDurability() - 1;
@@ -105,6 +118,24 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         int damageAmount = 0;
         while (!todo.isEmpty() && damageAmount < max) {
             Block todoBlock = todo.removeFirst();
+            if (done.contains(todoBlock)) continue;
+            done.add(todoBlock);
+            if (isLeaf(todoBlock)) {
+                ArrayList<Block> leafNbors = new ArrayList<>(9 + 8 + 9);
+                Block tmp = todoBlock;
+                for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
+                tmp = todoBlock.getRelative(BlockFace.UP);
+                for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
+                tmp = todoBlock.getRelative(BlockFace.DOWN);
+                for (BlockFace face: surroundingFaces) leafNbors.add(tmp.getRelative(face));
+                for (Block leafNbor: leafNbors) {
+                    if (!done.contains(leafNbor)
+                        && isLog(leafNbor)) {
+                        todo.add(leafNbor);
+                    }
+                }
+                continue;
+            }
             if (!isLog(todoBlock)) continue;
             if (!GenericEventsPlugin.getInstance().playerCanBuild(player, todoBlock)) continue;
             found.add(todoBlock);
@@ -112,20 +143,17 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             Block upBlock = todoBlock.getRelative(BlockFace.UP);
             if (!done.contains(upBlock)) {
                 todo.add(upBlock);
-                done.add(upBlock);
             }
             for (BlockFace face: surroundingFaces) {
                 Block nborBlock = todoBlock.getRelative(face);
                 if (!done.contains(nborBlock)) {
                     todo.add(nborBlock);
-                    done.add(nborBlock);
                 }
             }
             for (BlockFace face: surroundingFaces) {
                 Block nborBlock = upBlock.getRelative(face);
                 if (!done.contains(nborBlock)) {
                     todo.add(nborBlock);
-                    done.add(nborBlock);
                 }
             }
         }
