@@ -111,7 +111,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         todo.add(block);
         for (BlockFace face: surroundingFaces) todo.add(block.getRelative(face));
         ItemStack item = context.getItemStack();
-        int max = item.getType().getMaxDurability() - item.getDurability() - 1;
+        int max = item.getType().getMaxDurability() - item.getDurability();
         Player player = context.getPlayer();
         int damageAmount = 0;
         while (!todo.isEmpty() && damageAmount < max) {
