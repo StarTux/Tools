@@ -159,6 +159,8 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         new BukkitRunnable() {
             @Override public void run() {
                 Block foundBlock = found.removeFirst();
+                if (!isLog(foundBlock)) return;
+                if (!GenericEventsPlugin.getInstance().playerCanBuild(player, foundBlock)) return;
                 Location loc = foundBlock.getLocation().add(0.5, 0.5, 0.5);
                 foundBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, foundBlock.getState().getData());
                 foundBlock.getWorld().playSound(loc, Sound.BLOCK_WOOD_BREAK, 1.0f, 1.0f);
@@ -174,7 +176,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             item.setAmount(0);
             player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
         }
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, found.size() * 5, 1));
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, found.size() * 2, 1));
     }
 
     @EventHandler
