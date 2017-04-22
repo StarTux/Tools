@@ -117,10 +117,6 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         while (!todo.isEmpty() && damageAmount < max) {
             Collections.sort(todo, Y_COMPARATOR);
             Block todoBlock = todo.removeFirst();
-            Block groundBlock = todoBlock.getRelative(BlockFace.DOWN);
-            if (groundBlock.getX() != block.getX() || groundBlock.getZ() != block.getZ()) {
-                if (!found.contains(groundBlock) && isLog(groundBlock)) continue;
-            }
             if (done.contains(todoBlock)) continue;
             done.add(todoBlock);
             int dy = todoBlock.getY() - block.getY() + 1;
@@ -128,6 +124,8 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             int dz = Math.abs(todoBlock.getZ() - block.getZ());
             if (dx > dy || dz > dy) continue;
             if (dx > 16 || dz > 16) continue;
+            Block groundBlock = todoBlock.getRelative(BlockFace.DOWN);
+            if ((dx > 2 || dz > 2) && !found.contains(groundBlock) && isLog(groundBlock)) continue;
             if (isLeaf(todoBlock)) {
                 ArrayList<Block> leafNbors = new ArrayList<>(9 + 8 + 9);
                 Block tmp = todoBlock;
@@ -147,16 +145,15 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             if (!isLog(todoBlock)) continue;
             if (!GenericEventsPlugin.getInstance().playerCanBuild(player, todoBlock)) continue;
             found.add(todoBlock);
-            if (random.nextInt(6) == 0) damageAmount += 1;
-            Block upBlock = todoBlock.getRelative(BlockFace.UP);
-            if (!done.contains(upBlock)) {
-                todo.add(upBlock);
-            }
             for (BlockFace face: surroundingFaces) {
                 Block nborBlock = todoBlock.getRelative(face);
                 if (!done.contains(nborBlock)) {
                     todo.add(nborBlock);
                 }
+            }
+            Block upBlock = todoBlock.getRelative(BlockFace.UP);
+            if (!done.contains(upBlock)) {
+                todo.add(upBlock);
             }
             for (BlockFace face: surroundingFaces) {
                 Block nborBlock = upBlock.getRelative(face);
@@ -164,6 +161,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
                     todo.add(nborBlock);
                 }
             }
+            if (random.nextInt(6) == 0) damageAmount += 1;
         }
         if (found.isEmpty()) return;
         new BukkitRunnable() {
