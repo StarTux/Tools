@@ -1,5 +1,5 @@
 tree_chopper:
   Category: Tools
-  Description: This axe can cut down a whole tree at once!
-  Usage: Cut through the base of a tree and the rest will follow.
+  Description: This axe will cut down a whole tree at once!  It lasts for about as many chopped logs as a diamond pickaxe.
+  Usage: Cut through the entire base of a tree and the rest of the tree will break as well.  For ideal operational efficiency, make sure to cut the last log holding up the tree with this axe.
   DisplayName: Tree Chopper

@@ -41,7 +41,6 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
     private final String customId = "tools:tree_chopper";
     private final ItemStack itemStack;
     private final ItemDescription itemDescription;
-    private final String displayName;
     private final BlockFace[] surroundingFaces = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
     private final Random random = new Random(System.currentTimeMillis());
     private static final Comparator<Block> Y_COMPARATOR = new Comparator<Block>() {
@@ -53,17 +52,11 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
     TreeChopperItem(ToolsPlugin plugin) {
         this.plugin = plugin;
         ItemStack item = new ItemStack(Material.IRON_AXE);
-        this.displayName = plugin.getConfig().getString("tree_chopper.DisplayName");
         ItemMeta meta = item.getItemMeta();
-        meta.addEnchant(Enchantment.DIG_SPEED, 1, true);
+        meta.addEnchant(Enchantment.DURABILITY, 3, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
-        meta.setDisplayName(ChatColor.RESET + displayName);
         item.setItemMeta(meta);
         ItemDescription desc = new ItemDescription();
-        // TODO remove 3 lines
-        desc.setCategory(plugin.getConfig().getString("tree_chopper.Category"));
-        desc.setDescription(plugin.getConfig().getString("tree_chopper.Description"));
-        desc.setUsage(plugin.getConfig().getString("tree_chopper.Usage"));
         desc.load(plugin.getConfig().getConfigurationSection("tree_chopper"));
         desc.apply(item);
         this.itemDescription = desc;
@@ -198,6 +191,6 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
 
     @EventHandler
     public void onItemName(ItemNameEvent event) {
-        event.setItemName(displayName);
+        event.setItemName(itemDescription.getDisplayName());
     }
 }
