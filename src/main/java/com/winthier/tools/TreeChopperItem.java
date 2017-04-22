@@ -8,6 +8,8 @@ import com.winthier.custom.item.UpdatableItem;
 import com.winthier.generic_events.GenericEventsPlugin;
 import com.winthier.generic_events.ItemNameEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
@@ -42,6 +44,11 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
     private final String displayName;
     private final BlockFace[] surroundingFaces = {BlockFace.NORTH, BlockFace.NORTH_EAST, BlockFace.EAST, BlockFace.SOUTH_EAST, BlockFace.SOUTH, BlockFace.SOUTH_WEST, BlockFace.WEST, BlockFace.NORTH_WEST};
     private final Random random = new Random(System.currentTimeMillis());
+    private static final Comparator<Block> Y_COMPARATOR = new Comparator<Block>() {
+            @Override public int compare(Block a, Block b) {
+                return Integer.compare(a.getY(), b.getY());
+            }
+        };
 
     TreeChopperItem(ToolsPlugin plugin) {
         this.plugin = plugin;
@@ -115,9 +122,19 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         Player player = context.getPlayer();
         int damageAmount = 0;
         while (!todo.isEmpty() && damageAmount < max) {
+            Collections.sort(todo, Y_COMPARATOR);
             Block todoBlock = todo.removeFirst();
+            Block groundBlock = todoBlock.getRelative(BlockFace.DOWN);
+            if (groundBlock.getX() != block.getX() || groundBlock.getZ() != block.getZ()) {
+                if (!found.contains(groundBlock) && isLog(groundBlock)) continue;
+            }
             if (done.contains(todoBlock)) continue;
             done.add(todoBlock);
+            int dy = todoBlock.getY() - block.getY() + 1;
+            int dx = Math.abs(todoBlock.getX() - block.getX());
+            int dz = Math.abs(todoBlock.getZ() - block.getZ());
+            if (dx > dy || dz > dy) continue;
+            if (dx > 16 || dz > 16) continue;
             if (isLeaf(todoBlock)) {
                 ArrayList<Block> leafNbors = new ArrayList<>(9 + 8 + 9);
                 Block tmp = todoBlock;
