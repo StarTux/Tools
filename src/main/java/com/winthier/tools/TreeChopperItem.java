@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.Set;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -79,6 +78,8 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         switch (block.getType()) {
         case LOG:
         case LOG_2:
+        case HUGE_MUSHROOM_1:
+        case HUGE_MUSHROOM_2:
             return true;
         default:
             return false;
