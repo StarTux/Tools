@@ -167,6 +167,10 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         if (found.isEmpty()) return;
         new BukkitRunnable() {
             @Override public void run() {
+                if (found.isEmpty()) {
+                    cancel();
+                    return;
+                }
                 Block foundBlock = found.removeFirst();
                 if (!isLog(foundBlock)) return;
                 if (!GenericEventsPlugin.getInstance().playerCanBuild(player, foundBlock)) return;
@@ -174,7 +178,6 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
                 foundBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, foundBlock.getState().getData());
                 foundBlock.getWorld().playSound(loc, Sound.BLOCK_WOOD_BREAK, 1.0f, 1.0f);
                 foundBlock.breakNaturally();
-                if (found.isEmpty()) cancel();
             }
         }.runTaskTimer(plugin, 2, 2);
         int newDurability = item.getDurability() + damageAmount;
