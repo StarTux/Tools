@@ -17,3 +17,21 @@ example:
       type: DIAMOND
       amount: 9
     max_uses: 2
+  - result:
+      id: 'trees:fertilizer'
+      amount: 2
+    input1:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIRT
+    input2:
+      ==: org.bukkit.inventory.ItemStack
+      type: EGG
+      amount: 8
+  - result: 'tools:mining_helmet'
+    input1:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_HELMET
+    input2:
+      ==: org.bukkit.inventory.ItemStack
+      type: PRISMARINE_CRYSTALS
+      amount: 4

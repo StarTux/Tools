@@ -1,5 +1,21 @@
 tree_chopper:
   Category: Tools
   Description: This axe will cut down a whole tree at once!  It lasts for about as many chopped logs as a diamond pickaxe.
-  Usage: Cut through the entire base of a tree and the rest of the tree will break as well.  For ideal operational efficiency, make sure to cut the last log holding up the tree with this axe.
+  Usage: Cut through the entire base of a tree and the rest of the tree will break as well.  For ideal operational efficiency, make sure to cut the last log holding up the tree with this axe.  Collect exp to recharge its batteries.
   DisplayName: Tree Chopper
+mining_helmet:
+  ItemStack:
+    ==: org.bukkit.inventory.ItemStack
+    type: LEATHER_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: LEATHER_ARMOR
+      color:
+        ==: Color
+        RED: 255
+        BLUE: 0
+        GREEN: 255
+  Category: Tools
+  Description: This helmet gives you night vision while working in the dark!
+  Usage: Collect exp to recharge the batteries.
+  DisplayName: Mining Helmet
