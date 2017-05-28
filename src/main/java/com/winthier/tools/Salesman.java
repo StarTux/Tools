@@ -3,7 +3,6 @@ package com.winthier.tools;
 import com.winthier.custom.CustomPlugin;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,9 @@ import org.bukkit.inventory.Merchant;
 import org.bukkit.inventory.MerchantRecipe;
 
 @RequiredArgsConstructor
-public class Salesman implements TabExecutor {
+public final class Salesman implements TabExecutor {
     private final ToolsPlugin plugin;
-    YamlConfiguration config;
+    private YamlConfiguration config;
 
     ConfigurationSection getConfig() {
         if (config == null) {
