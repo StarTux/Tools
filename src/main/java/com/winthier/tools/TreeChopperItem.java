@@ -20,6 +20,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -35,7 +36,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
-public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableItem {
+public final class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableItem {
     private final ToolsPlugin plugin;
     private final String customId = "tools:tree_chopper";
     private final ItemStack itemStack;
@@ -53,6 +54,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
         ItemStack item = new ItemStack(Material.IRON_AXE);
         ItemMeta meta = item.getItemMeta();
         meta.addEnchant(Enchantment.DURABILITY, 3, true);
+        meta.addEnchant(Enchantment.MENDING, 1, true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
         item.setItemMeta(meta);
         ItemDescription desc = new ItemDescription();
@@ -176,7 +178,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
                 if (!GenericEventsPlugin.getInstance().playerCanBuild(player, foundBlock)) return;
                 Location loc = foundBlock.getLocation().add(0.5, 0.5, 0.5);
                 foundBlock.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 8, foundBlock.getState().getData());
-                foundBlock.getWorld().playSound(loc, Sound.BLOCK_WOOD_BREAK, 1.0f, 1.0f);
+                foundBlock.getWorld().playSound(loc, Sound.BLOCK_WOOD_BREAK, SoundCategory.BLOCKS, 1.0f, 1.0f);
                 foundBlock.breakNaturally();
             }
         }.runTaskTimer(plugin, 2, 2);
@@ -186,7 +188,7 @@ public class TreeChopperItem implements CustomItem, UncraftableItem, UpdatableIt
             item.setDurability((short)newDurability);
         } else {
             item.setAmount(0);
-            player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, 1.0f, 1.0f);
+            player.playSound(player.getEyeLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
         }
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, found.size() * 2, 1));
     }
