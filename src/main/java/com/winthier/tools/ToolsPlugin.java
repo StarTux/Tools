@@ -9,6 +9,8 @@ public class ToolsPlugin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        getCommand("salesman").setExecutor(new Salesman(this));
+        saveResource("salesman.yml", false);
     }
 
     @EventHandler

@@ -4,5 +4,13 @@ author: StarTux
 version: 0.1
 main: com.winthier.tools.ToolsPlugin
 depend: [ Custom, GenericEvents ]
-commands: {}
-permissions: {}
+commands:
+  salesman:
+    description: Salesman interface
+    usage: |-
+      /salesman reload
+      /salesman open <shop> <player>
+    permission: tools.salesman
+permissions:
+  tools.salesman:
+    description: Use /salesman

@@ -1,0 +1,19 @@
+example:
+  title: Example
+  recipes:
+  - result: 'tools:tree_chopper'
+    input1:
+      ==: org.bukkit.inventory.ItemStack
+      type: STICK
+    input2:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND
+      amount: 3
+  - result:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND_BLOCK
+    input1:
+      ==: org.bukkit.inventory.ItemStack
+      type: DIAMOND
+      amount: 9
+    max_uses: 2
