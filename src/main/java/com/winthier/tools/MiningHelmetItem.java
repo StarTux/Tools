@@ -57,8 +57,8 @@ public final class MiningHelmetItem implements CustomItem, UncraftableItem, Tick
         Player player = itemContext.getPlayer();
         if (player == null) return;
         PotionEffect effect = player.getPotionEffect(PotionEffectType.NIGHT_VISION);
-        if (effect != null && effect.getDuration() >= 40) return;
-        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 7, 0, true, false), true);
+        if (effect != null && effect.getDuration() >= 20 * 11) return;
+        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20 * 15, 0, true, false), true);
         if (player.getGameMode() != GameMode.CREATIVE) {
             item.setDurability((short)(item.getDurability() + 1));
         }
