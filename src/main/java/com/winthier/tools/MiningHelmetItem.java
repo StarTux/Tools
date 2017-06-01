@@ -15,6 +15,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -72,5 +73,12 @@ public final class MiningHelmetItem implements CustomItem, UncraftableItem, Tick
     @EventHandler
     public void onItemName(ItemNameEvent event, ItemContext context) {
         event.setItemName(itemDescription.getDisplayName());
+    }
+
+    @EventHandler
+    public void onPlayerItemDamage(PlayerItemDamageEvent event, ItemContext context) {
+        if (context.getItemStack().getDurability() + event.getDamage() > context.getItemStack().getType().getMaxDurability()) {
+            event.setCancelled(true);
+        }
     }
 }
