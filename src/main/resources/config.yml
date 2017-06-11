@@ -3,6 +3,7 @@ tree_chopper:
   Description: This axe will cut down a whole tree at once!  It lasts for about as many chopped logs as a diamond pickaxe.
   Usage: Cut through the entire base of a tree and the rest of the tree will break as well.  For ideal operational efficiency, make sure to cut the last log holding up the tree with this axe.  Collect exp to recharge its batteries.
   DisplayName: Tree Chopper
+EffectArmorItems: [ mining_helmet, running_shoes, hover_boots, scuba_helmet, jumping_shoes ]
 mining_helmet:
   ItemStack:
     ==: org.bukkit.inventory.ItemStack
@@ -10,12 +11,123 @@ mining_helmet:
     meta:
       ==: ItemMeta
       meta-type: LEATHER_ARMOR
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 5
+        DURABILITY: 3
+        MENDING: 1
       color:
         ==: Color
         RED: 255
         BLUE: 0
         GREEN: 255
-  Category: Tools
-  Description: This helmet gives you night vision while working in the dark!
-  Usage: Collect exp to recharge the batteries.
-  DisplayName: Mining Helmet
+  ItemDescription:
+    Category: Tools
+    Description: This helmet gives you night vision while working in the dark!
+    Usage: Collect exp to recharge the batteries.
+    DisplayName: Mining Helmet
+  PotionEffect:
+    Type: NIGHT_VISION
+    Amplifier: 0
+    Duration: 20
+    MaxDuration: 15
+running_shoes:
+  ItemStack:
+    ==: org.bukkit.inventory.ItemStack
+    type: LEATHER_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: LEATHER_ARMOR
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 5
+        DURABILITY: 3
+        MENDING: 1
+      color:
+        ==: Color
+        RED: 255
+        BLUE: 255
+        GREEN: 255
+  ItemDescription:
+    Category: Gear
+    Description: Run super fast while wearing these shoes.
+    Usage: Collect exp to recharge the batteries.
+    DisplayName: Running Shoes
+  PotionEffect:
+    Type: SPEED
+    Amplifier: 1
+    Duration: 7
+    MaxDuration: 2
+hover_boots:
+  ItemStack:
+    ==: org.bukkit.inventory.ItemStack
+    type: CHAINMAIL_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      enchants:
+        DURABILITY: 3
+        MENDING: 1
+  ItemDescription:
+    Category: Gear
+    Description: Rise up into the sky with this pair of magic boots.
+    Usage: Collect exp to recharge the batteries.
+    DisplayName: Hover Boots
+  PotionEffect:
+    Type: LEVITATION
+    Amplifier: 0
+    Duration: 2
+    MaxDuration: 2
+scuba_helmet:
+  ItemStack:
+    ==: org.bukkit.inventory.ItemStack
+    type: LEATHER_HELMET
+    meta:
+      ==: ItemMeta
+      meta-type: LEATHER_ARMOR
+      enchants:
+        PROTECTION_ENVIRONMENTAL: 5
+        DURABILITY: 3
+        MENDING: 1
+        DEPTH_STRIDER: 3
+        OXYGEN: 1
+        WATER_WORKER: 1
+      color:
+        ==: Color
+        RED: 0
+        BLUE: 0
+        GREEN: 0
+  ItemDescription:
+    Category: Gear
+    Description: Explore the seas! This helmet allows you to breathe, walk, and see clearly underwater.
+    Usage: Collect exp to refill the oxygen tank.
+    DisplayName: Scuba Helmet
+  PotionEffect:
+    Type: WATER_BREATHING
+    Amplifier: 0
+    Duration: 5
+    MaxDuration: 2
+jumping_shoes:
+  ItemStack:
+    ==: org.bukkit.inventory.ItemStack
+    type: LEATHER_BOOTS
+    meta:
+      ==: ItemMeta
+      meta-type: LEATHER_ARMOR
+      enchants:
+        PROTECTION_FALL: 10
+        DURABILITY: 3
+        MENDING: 1
+      color:
+        ==: Color
+        RED: 63
+        BLUE: 31
+        GREEN: 255
+  ItemDescription:
+    Category: Gear
+    Description: Jump like a rabbit.
+    Usage: Collect exp to recharge the batteries.
+    DisplayName: Jumping Shoes
+  PotionEffect:
+    Type: JUMP
+    Amplifier: 3
+    Duration: 7
+    MaxDuration: 2

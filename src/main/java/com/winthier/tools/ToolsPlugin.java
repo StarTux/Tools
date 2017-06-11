@@ -17,6 +17,8 @@ public class ToolsPlugin extends JavaPlugin implements Listener {
     public void onCustomRegister(CustomRegisterEvent event) {
         reloadConfig();
         event.addItem(new TreeChopperItem(this));
-        event.addItem(new MiningHelmetItem(this));
+        for (String id: getConfig().getStringList("EffectArmorItems")) {
+            event.addItem(new EffectArmorItem(this, id));
+        }
     }
 }
