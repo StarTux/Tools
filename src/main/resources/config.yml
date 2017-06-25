@@ -131,3 +131,9 @@ jumping_shoes:
     Amplifier: 3
     Duration: 7
     MaxDuration: 2
+angel_block:
+  Category: Building Blocks
+  Description: You can place this block in midair to start an airborne structure.
+  Usage: Place this block against air. You cannot pick it up.
+  DisplayName: Angel Block
+
