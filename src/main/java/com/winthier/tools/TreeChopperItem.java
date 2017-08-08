@@ -74,6 +74,11 @@ public final class TreeChopperItem implements CustomItem, UncraftableItem, Updat
     @Override
     public void updateItem(ItemStack item) {
         itemDescription.apply(item);
+        ItemMeta meta = item.getItemMeta();
+        meta.addEnchant(Enchantment.DURABILITY, 3, true);
+        meta.addEnchant(Enchantment.MENDING, 1, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
+        item.setItemMeta(meta);
     }
 
     private boolean isLog(Block block) {
