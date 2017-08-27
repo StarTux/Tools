@@ -18,6 +18,7 @@ public class ToolsPlugin extends JavaPlugin implements Listener {
         reloadConfig();
         event.addItem(new TreeChopperItem(this));
         event.addItem(new AngelBlockItem(this));
+        event.addItem(new SlimeFinderItem(this));
         for (String id: getConfig().getStringList("EffectArmorItems")) {
             event.addItem(new EffectArmorItem(this, id));
         }

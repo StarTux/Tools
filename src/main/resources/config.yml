@@ -136,4 +136,8 @@ angel_block:
   Description: You can place this block in midair to start an airborne structure.
   Usage: Place this block against air. You cannot pick it up.
   DisplayName: Angel Block
-
+slime_finder:
+  Category: Tools
+  Description: Find out whether a block belongs to a slime chunk.
+  Usage: Apply this item to the ground to find out whether slimes can spawn here underground.
+  DisplayName: Slime Finder
