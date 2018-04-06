@@ -53,7 +53,10 @@ public class ToolsPlugin extends JavaPlugin implements Listener {
         if (stairs.isInverted()) return;
         if (block.getRelative(0, 1, 0).getType() != Material.AIR) return;
         if (!block.getRelative(0, -1, 0).getType().isSolid()) return;
-        if (block.getY() - player.getLocation().getBlockY() > 1) return;
+        if (!player.isOnGround()) return;
+        if (block.getY() != player.getLocation().getBlockY()) return;
+        if (Math.abs(block.getX() - player.getLocation().getBlockX()) > 1) return;
+        if (Math.abs(block.getZ() - player.getLocation().getBlockZ()) > 1) return;
         if (event.getItem() != null && event.getItem().getType().isBlock()) return;
         for (Entity e: block.getWorld().getNearbyEntities(block.getLocation().add(0.5, 0.5, 0.5), 0.5, 0.5, 0.5)) {
             if (ChairEntity.CUSTOM_ID.equals(CustomPlugin.getInstance().getEntityManager().getCustomId(e))) return;
